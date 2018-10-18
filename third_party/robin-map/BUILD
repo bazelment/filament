@@ -4,7 +4,7 @@ cc_library(
   name = "robin-map",
   visibility = ["//visibility:public"],
   includes = [
-    "tsl",
+    ".",
   ],
   hdrs = [
     "tsl/robin_growth_policy.h",

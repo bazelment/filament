@@ -1,0 +1,51 @@
+cc_library(
+  name = "utils",
+  visibility = ["//visibility:public"],
+  includes = [
+    "include",
+  ],
+  hdrs = [
+    # "include/utils/algorithm.h",
+    # "include/utils/bitset.h",
+    # "include/utils/compiler.h",
+    # "include/utils/Entity.h",
+    # "include/utils/EntityInstance.h",
+    # "include/utils/EntityManager.h",
+    # "include/utils/CString.h",
+    # "include/utils/Systrace.h",
+    # "include/utils/Log.h",
+    # "include/utils/ashmem.h",
+    # "include/utils/Path.h",
+    # "include/utils/linux/Condition.h",
+    # "include/utils/linux/Mutex.h",
+  ] + glob([
+    "include/utils/**/*.h",
+  ]),
+  srcs = [
+    "src/ashmem.cpp",
+    "src/Allocator.cpp",
+    "src/CallStack.cpp",
+    "src/CString.cpp",
+    "src/CountDownLatch.cpp",
+    "src/CyclicBarrier.cpp",
+    "src/EntityManager.cpp",
+    "src/EntityManagerImpl.h",
+    "src/JobSystem.cpp",
+    "src/Log.cpp",
+    "src/NameComponentManager.cpp",
+    "src/Panic.cpp",
+    "src/Path.cpp",
+    "src/Profiler.cpp",
+    "src/Systrace.cpp",
+    "src/linux/Condition.cpp",
+    "src/linux/Mutex.cpp",
+    "src/linux/futex.h",
+    "src/linux/Path.cpp",
+  ],
+  copts = [
+    "-Ifilament/libs/utils/src/linux",
+  ],
+  deps = [
+    "//third_party/robin-map",
+  ]
+)
