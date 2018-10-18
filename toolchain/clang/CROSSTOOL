@@ -1,0 +1,98 @@
+# See https://github.com/google/bazel/blob/master/src/main/protobuf/crosstool_config.proto
+# for available settings.
+major_version: "local"
+minor_version: ""
+default_target_cpu: "same_as_host"
+default_toolchain {
+  cpu: "k8"
+  toolchain_identifier: "local"
+}
+
+# Clang v6 on installed locally
+toolchain {
+  abi_version: "local"
+  abi_libc_version: "local"
+
+  builtin_sysroot: ""
+  compiler: "clang"
+  host_system_name: "local"
+  needsPic: true
+  supports_gold_linker: false
+  supports_incremental_linker: true
+  supports_fission: true
+  supports_interface_shared_objects: true
+  supports_normalizing_ar: false
+  supports_start_end_lib: true
+  supports_thin_archives: true
+  target_libc: "local"
+  target_cpu: "k8"
+  target_system_name: "local"
+  toolchain_identifier: "local"
+
+  tool_path { name: "ar" path: "/usr/lib/llvm-6.0/bin/llvm-ar" }
+  tool_path { name: "cpp" path: "/usr/lib/llvm-6.0/bin/clang-cpp" }
+  tool_path { name: "dwp" path: "/usr/lib/llvm-6.0/bin/llvm-dwarfdump" }
+  tool_path { name: "gcc" path: "/usr/lib/llvm-6.0/bin/clang" }
+  tool_path { name: "gcov" path: "/usr/lib/llvm-6.0/bin/llvm-cov" }
+  tool_path { name: "ld" path: "/usr/lib/llvm-6.0/bin/llvm-link" }
+  tool_path { name: "nm" path: "/usr/lib/llvm-6.0/bin/llvm-nm" }
+  tool_path { name: "objcopy" path: "/usr/lib/llvm-6.0/bin/llvm-objcopy" }
+  tool_path { name: "objdump" path: "/usr/lib/llvm-6.0/bin/llvm-objdump" }
+  tool_path { name: "strip" path: "/usr/lib/llvm-6.0/bin/llvm-strip" }
+
+  compiler_flag: "-Wall"
+  cxx_flag: "-std=c++14"
+
+  compilation_mode_flags {
+    mode: FASTBUILD
+    compiler_flag: "-gmlt"
+    # Strip the debug sections when linking.
+    # linker_flag: "-Wl,-S"
+  }
+  compilation_mode_flags {
+    mode: DBG
+    cxx_flag: "-g"
+  }
+  compilation_mode_flags {
+    mode: OPT
+    compiler_flag: "-g0"
+    compiler_flag: "-O3"
+    compiler_flag: "-DNDEBUG"
+    # Removal of unused code and data at link time (can this increase binary size in some cases?).
+    compiler_flag: "-ffunction-sections"
+    compiler_flag: "-fdata-sections"
+
+    # So glog can report stacktrace on crash
+    compiler_flag: "-fno-omit-frame-pointer"
+
+    # For a backtrace with file and line info, using recent GCC
+    # versions, with -gmlt option (minimal line table)
+    compiler_flag: "-gmlt"
+
+    linker_flag: "-Wl,--gc-sections"
+    linker_flag: "-Wl,--build-id=sha1"
+    linker_flag: "-Wl,--hash-style=gnu"
+    # Gold linker only
+    # Warn if the stack is executable
+    linker_flag: "-Wl,--warn-execstack"
+    # Look for violations of the C++ One Definition Rule
+    linker_flag: "-Wl,--detect-odr-violations"
+  }
+
+  linker_flag: "-lstdc++"
+
+  cxx_builtin_include_directory: "/usr/local/include"
+  cxx_builtin_include_directory: "/usr/lib/llvm-6.0/lib/clang/6.0.0/include"
+  cxx_builtin_include_directory: "/usr/include/x86_64-linux-gnu"
+  cxx_builtin_include_directory: "/usr/include"
+  cxx_builtin_include_directory: "/usr/include/c++/5.4.0"
+  cxx_builtin_include_directory: "/usr/include/x86_64-linux-gnu/c++/5.4.0"
+  cxx_builtin_include_directory: "/usr/include/c++/5.4.0/backward"
+  cxx_builtin_include_directory: "/usr/include/clang/6.0.0/include"
+  cxx_builtin_include_directory: "/usr/lib/clang/6.0.0/include"
+  cxx_builtin_include_directory: "/usr/lib/llvm-6.0/lib/clang"
+  cxx_builtin_include_directory: "/usr/lib/llvm-6.0/include/c++"
+
+  objcopy_embed_flag: "-I"
+  objcopy_embed_flag: "binary"
+}
