@@ -42,6 +42,8 @@ toolchain {
 
   compiler_flag: "-Wall"
   cxx_flag: "-std=c++14"
+  # Needed by filament
+  cxx_flag: "-stdlib=libc++"
 
   compilation_mode_flags {
     mode: FASTBUILD
