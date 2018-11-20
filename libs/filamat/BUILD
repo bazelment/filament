@@ -3,9 +3,11 @@ cc_library(
   visibility = ["//visibility:public"],
   includes = [
     "include",
+    "src",
   ],
   hdrs = glob([
     "include/**/*.h",
+    "src/shaders/ShaderGenerator.h",    
   ]),
   srcs = [
     "src/MaterialBuilder.cpp",
@@ -36,7 +38,6 @@ cc_library(
     "src/shaders/CodeGenerator.h",
     "src/shaders/MaterialInfo.h",
     "src/shaders/ShaderGenerator.cpp",
-    "src/shaders/ShaderGenerator.h",
     "src/shaders/Shaders.h",
   ],
   deps = [
