@@ -1,1 +1,2 @@
 build --crosstool_top=//toolchain/clang:toolchain
+build --spawn_strategy=standalone
